@@ -2,6 +2,7 @@
   "name": "bare-react-portfolio",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://tipicultbiomassa.github.io/portfolio-site/",
   "dependencies": {
     "@react-three/drei": "^9.8.1",
     "@react-three/fiber": "^8.0.16",
