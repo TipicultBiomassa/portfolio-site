@@ -48,7 +48,16 @@
 
   max-width: 30vw;
 }
+.fixedMoon {
+  left: 95%;
+  top: 25%;
+  transform: translate(-50%, 0);
+  position: fixed;
+  z-index: 5;
+  width: 150px;
+}
 .dummy {
+  height: 1000px;
   /*background-image: linear-gradient(128deg, rgba(28,69,87,1) 6%, rgba(25,20,112,1) 22%, rgba(37,9,79,1) 38%, rgba(9,9,121,1) 53%, rgba(0,212,255,1) 100%);*/
 
   /*width: 100%;*/
@@ -78,9 +87,42 @@
 .spinner-profile {
   /*position: absolute;*/
   /*margin-top: 70px;*/
-  max-width: 250px;
+  width: 250px;
+  /*background-color: #03e9f4;*/
 }
 
+@media (max-width: 765px) {
+  .spinner-profile {
+    margin-top: 2rem;
+    width: 125px;
+  }
+}
+.glowingStyle {
+  border-radius: 50%;
+  color: #050801;
+  /*box-shadow: 0 0 5px #03e9f4,*/
+  /*0 0 25px #03e9f4,*/
+  /*0 0 50px #03e9f4,*/
+  /*0 0 200px #03e9f4,*/
+  /*0 0 5px #03e9f4 inset,*/
+  /*inset 0 0 25px #03e9f4,*/
+  /*inset 0 0 50px #03e9f4,*/
+  /*inset 0 0 200px #03e9f4,*/
+  /*inset 0 0 5px #000000;*/
+
+  box-shadow: 0 0 5px #f6f799,
+  0 0 25px #f8f363,
+  0 0 50px #fcffe4,
+  0 0 200px #ffffff,
+  0 0 5px #f6f799 inset,
+  inset 0 0 25px #f8f363,
+  inset 0 0 50px #fcffe4,
+  inset 0 0 200px #ffffff,
+  inset 0 0 5px #000000;
+
+  /*box-shadow: 0px 1px 3px gray inset;*/
+
+}
 .text-block {
   margin-left: 15px;
   padding: 10px;

@@ -1,6 +1,7 @@
+// @ts-nocheck
 import logo from './logo.svg';
 import './App.css';
-import React, {useEffect, useState,Suspense} from 'react';
+import React, {useEffect, useState, Suspense, useRef} from 'react';
 
 import {Parallax, ParallaxProvider} from 'react-scroll-parallax';
 import InnerComponent from "./InnerComponent";
@@ -12,6 +13,8 @@ import TextLeft from "./TextLeft";
 import Mount from "./Background";
 import MainBody from "./bottom/MainBody";
 import Greeting from "./static/025_waving_hand.webm";
+import Sun from "./static/026_sun.webm";
+import Moon from "./static/004_new_moon_face.webm";
 import github from "./static/github.png";
 import HitMeUp from "./static/023_raised_hand.webm";
 function App() {
@@ -19,6 +22,8 @@ function App() {
     const [globalScroll, setGlobalScroll] = useState(0);
     const [isNextSlide, setNextSlide] = useState(false);
 
+    const [isLight, setLightMode] = useState(false);
+    const hiRef = useRef();
 
 
     //setInterval(()=>console.log(scrollProgress),1500);
@@ -52,9 +57,32 @@ function App() {
             // camera.position.y = -scrollProgress * 130;
         })
     }
+
+    function returnLightMode () {
+        // if (isLight) {
+        //     console.log("блядина")
+        //     return (
+        //         <video muted autoPlay  loop className={'fixedMoon'} onClick={()=>setLightMode(false)}>
+        //             <source src={Sun} type={'video/webm'} codecs="vp8"/>
+        //         </video>
+        //     )
+        // }
+
+        return (
+            <>
+            <video muted autoPlay  loop className={'fixedMoon'} onClick={()=>setLightMode(false)} style={{display: !isLight ? "none" : 'block'}}>
+                <source src={Sun} type={'video/webm'} codecs="vp8"/>
+            </video>
+            <video muted autoPlay  loop className={'fixedMoon'} onClick={()=>setLightMode(true)} style={{display: isLight ? "none" : 'block'}}>
+                <source src={Moon} type={'video/webm'} codecs="vp8"/>
+            </video>
+            </>
+        )
+    }
   return (
         <>
           {/*{!isNextSlide ? <></> : <Mount isNextSlide={isNextSlide} />}*/}
+            {returnLightMode()}
           <Parallax
               onProgressChange={(progress) => setScrollProgress(progress)}>
 
@@ -63,14 +91,13 @@ function App() {
 
 
               <animated.div className="secondBody"
-                  // style={{background: `radial-gradient(circle at right, rgba(38,15,71,${opacity}) 31%, rgba(21,5,45,${opacity}) 50%, rgba(9,9,121,${opacity}) 72%, rgba(0,212,255,${opacity}) 100%);`}}
-                  // style={{opacity: scrollProgress > 0.99 ? 0 : 1}}
                             style={styles}
               />
+
               <Parallax onProgressChange={(progress) => setGlobalScroll(progress)}>
-                  <Canvas className={'absoluteCanvas'} camera={{ position: [0, 0, -5], fov: 35 }} style={{position:'absolute', height:'250vh'}}>
+                  <Canvas className={'absoluteCanvas'} camera={{ position: [0, 0, -5], fov: 35 }} style={{position:'absolute', height:'3000px'}}>
                       <ambientLight intensity={0.8} color="#00d4ff"/>
-                      <pointLight intensity={20 * (globalScroll -0.6)} position={[0, 150, 5]} color="#A020F0"/>
+                      <pointLight intensity={13 * (globalScroll -0.6)} position={[0, 150, 5]} color="#A020F0"/>
                       <Suspense fallback={null}>
                           <Cloud position={[-8 * scrollProgress*10, 15, 10]} speed={0.81} opacity={0.5 } />
                           <Cloud position={[-3* scrollProgress*10, 12, 30]} speed={1} opacity={ 0.6} />
@@ -83,37 +110,32 @@ function App() {
                           <Cloud position={[5* scrollProgress*10, 12, 60]} speed={0.2} opacity={0.2} />
                           <Cloud position={[5, 35 + scrollProgress*2, 20]} speed={0.2} opacity={0.2} />
                       </Suspense>
-                      {/*<Sky azimuth={0.4} opacity={0} turbidity={10} elevation={1} rayleigh={0.5} inclination={0.6} distance={1000} />*/}
+                      {isLight ? <Sky azimuth={0.4} opacity={0} turbidity={10} elevation={1} rayleigh={0.5} inclination={0.6} distance={1000} /> : <></>}
                       <Rig />
                   </Canvas>
                   <div className="dummy">
                       <TextLeft isNextSlide={isNextSlide} />
                       <InnerComponent setNextSlide={setNextSlide} setScrollProgress={setScrollProgress}/>
-                  </div>
-                  <div className={'itsmid h-40'} style={{marginTop: `${37 - globalScroll * 35}vh`}}>
-                      <div className={'relative items-center justify-center text-center bg-blue-100 rounded-lg p-5 font-sans text-3xl flex flex-col shadow-2xl shadow-cyan-500/50'} style={globalScroll == 1 ? {opacity:0} : {opacity:1.7-globalScroll}}>
+                      {/*<div className={'h-40 w-64 flex self-center' } style={{marginTop: `${37 - globalScroll * 35}vh`}}>*/}
+                        <div className={"flex self-center items-center justify-center"}  style={{marginTop: `${37 - globalScroll * 35}vh`}}>
+                          <div className={'flex self-center items-center justify-center text-center bg-blue-100 rounded-lg p-5 font-sans text-3xl flex flex-col shadow-2xl shadow-cyan-500/50'}  style={globalScroll == 1 ? {opacity:0} : {opacity:1.7-globalScroll, zIndex: scrollProgress > 0.6 ? -5: 5}}>
 
-                          Greetings, my name is Kirill and i'm a frontend developer.
-                          <video autoPlay muted style={{width:'10rem', height:'10rem'}}>
-                              <source src={Greeting} type={'video/webm'} codecs="vp8"/>
-                          </video>
-                      </div>
+                              Greetings, my name is Kirill and i'm a frontend developer.
+                              <video ref={hiRef} autoPlay muted style={{width:'10rem', height:'10rem'}} onMouseMove={()=>hiRef.current.play()}>
+                                  <source src={Greeting} type={'video/webm'} codecs="vp8"/>
+                              </video>
+                          </div>
+                        </div>
+                      {/*</div>*/}
                   </div>
+
               </Parallax>
 
 
           </Parallax>
           {isNextSlide ? <MainBody /> : <></>}
-          <div className={'itsmid h-40'} style={{marginTop: `160vh`}}>
-              <div className={'relative items-center justify-center text-center bg-blue-100 rounded-lg p-5 font-sans text-3xl flex flex-col'} >
 
-                  Hit me up
-                  <video autoPlay loop muted style={{width:'10rem', height:'10rem'}}>
-                      <source src={HitMeUp} type={'video/webm'} codecs="vp8"/>
-                  </video>
-                  <a href={'https://github.com/TipicultBiomassa'}><img alt='' src={github} style={{width:'5rem'}} /></a>
-              </div>
-          </div>
+
         </>
      );
 }

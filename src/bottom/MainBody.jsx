@@ -1,7 +1,9 @@
 import * as THREE from 'three'
-import { useRef, useState, useMemo, useEffect } from 'react'
+import React, { useRef, useState, useMemo, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Text, OrbitControls  } from '@react-three/drei'
+import HitMeUp from "../static/023_raised_hand.webm";
+import github from "../static/github.png";
 
 function Word({ children, ...props }) {
     const color = new THREE.Color()
@@ -57,13 +59,22 @@ export default function MainBody() {
     return (
         <>
             {/*<div style={{marginTop:'800px'}}>*/}
-        <Canvas style={{position: 'absolute', marginTop: '550px'}} dpr={[1, 2]} camera={{ position: [0, 0, 35], fov: 90 }}>
+        <Canvas style={{position: 'relative', width:'100%', height:"100vh"}} dpr={[1, 2]} camera={{ position: [0, 0, 35], fov: 90 }}>
             <fog attach="fog" args={['#202025', 0, 80]} />
             <Cloud count={8} radius={20} />
             <OrbitControls enablePan={false} enableZoom={false} />
         </Canvas>
-            HIT ME UP
             {/*</div>*/}
+            <div className={'w-40 h-40'}>
+                <div className={'relative items-center justify-center text-center bg-blue-100 rounded-lg p-5 font-sans text-3xl flex flex-col'} >
+
+                    Hit me up
+                    <video autoPlay loop muted style={{width:'10rem', height:'10rem'}}>
+                        <source src={HitMeUp} type={'video/webm'} codecs="vp8"/>
+                    </video>
+                    <a href={'https://github.com/TipicultBiomassa'}><img alt='' src={github} style={{width:'5rem'}} /></a>
+                </div>
+            </div>
         </>
     )
 }

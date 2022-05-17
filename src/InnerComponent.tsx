@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {useEffect, useState} from 'react';
 import cx from 'classnames';
 import {Parallax, useParallax} from 'react-scroll-parallax';
@@ -6,9 +7,25 @@ import ReactIcon from "./static/React.png"
 import SvelteIcon from "./static/svelte.png"
 import NodeIcon from "./static/node.png"
 import TsIcon from "./static/ts.png"
-
+import './App.css';
+import {useSpring,animated} from "react-spring";
 
 export default function InnerComponent ({setNextSlide,setScrollProgress}){
+    const [glowClass, deleteClass] = useState('glowingStyle')
+    const springProps = useSpring({
+        opacity: 0,
+        config: {
+            delay: 500,
+            duration: 4500,
+        },
+        from: {
+            opacity:1,
+        } });
+    useEffect(()=>{
+        // setTimeout(()=>{
+        //     deleteClass('')
+        // },2300)
+    },[])
     //const [isNextSlide, setNextSlide] = useState(false);
     //const [scrollProgress, setScrollProgress] = useState(0);
     const shared =
@@ -24,13 +41,15 @@ export default function InnerComponent ({setNextSlide,setScrollProgress}){
                 onEnter={() => setNextSlide(false)}
                 onExit={() => setNextSlide(true)}
             >
-            <div className="flex justify-center pt-20">
+            <animated.div className="flex justify-center pt-20">
                 <>
-                    <div className="spinner-profile absolute h-48 md:h-96 w-48 md:w-96 w-1/4 md:mt-14 mt-16 md:w-1/5"><img alt="" className="border-2 border-blue-500 rounded-full" src={ProfilePate} /> </div>
+                    <div className="spinner-profile absolute h-48 w-1/4 lg:mt-16 md:mt-16"><img alt="" className="border-2 border-blue-500 rounded-full" src={ProfilePate} /> </div>
+                    <animated.div className={"absolute border-4 border-cyan-200 border-solid h-48 md:h-96 w-48 md:w-96 rounded-full flex items-center justify-center text-4xl drop-shadow-2xl shadow-yellow-300 " + glowClass} style={{...springProps}}>                    </animated.div>
 
                     <div
                         ref={parallax.ref}
-                        className="relative border-4 border-red-200 border-solid h-48 md:h-96 w-48 md:w-96 rounded-full flex items-center justify-center text-4xl"
+                        className={"relative border-4 border-cyan-200 border-solid h-48 md:h-96 w-48 md:w-96 rounded-full flex items-center justify-center text-4xl drop-shadow-2xl shadow-yellow-300"}
+                        style={{opacity:1}}
                     >
                         <div
                             className={cx(
@@ -66,7 +85,7 @@ export default function InnerComponent ({setNextSlide,setScrollProgress}){
                         </div>
                     </div>
                 </>
-            </div>
+            </animated.div>
             </Parallax>
     );
 };
