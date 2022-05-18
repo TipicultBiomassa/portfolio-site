@@ -89,7 +89,7 @@ export default function TextLeft ({isNextSlide}) {
 
       return(
           <>
-              <div className={"flex flex-col gap-y-10 w-full "} style={{position:'absolute',paddingTop: "500px"}}>
+              <div className={"flex flex-col gap-y-10 w-full"} style={{position:'absolute',paddingTop: "500px"}}>
           <animated.div style={{...springProps}} className={"text-block w-96 flex"} >
             Was working with JavaScript and TypeScript, wide experience in commercial frontend development
               {/*<img src={Glasses} alt="" style={{width:'3rem',height:'3rem'}}/>*/}

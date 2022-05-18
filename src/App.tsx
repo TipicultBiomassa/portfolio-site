@@ -10,20 +10,21 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Cloud, Sky } from "@react-three/drei"
 
 import TextLeft from "./TextLeft";
-import Mount from "./Background";
 import MainBody from "./bottom/MainBody";
 import Greeting from "./static/025_waving_hand.webm";
 import Sun from "./static/026_sun.webm";
+import CloudIcon from "./static/013_sun_behind_cloud.webm";
 import Moon from "./static/004_new_moon_face.webm";
-import github from "./static/github.png";
-import HitMeUp from "./static/023_raised_hand.webm";
 function App() {
     const [scrollProgress, setScrollProgress] = useState(0);
     const [globalScroll, setGlobalScroll] = useState(0);
     const [isNextSlide, setNextSlide] = useState(false);
 
+    const [additionalClouds, addCloud] = useState([]);
+
     const [isLight, setLightMode] = useState(false);
     const hiRef = useRef();
+    const [buttonStyle, buttonChange] = useSpring((number,index) => ({ transform: 'translateY(1550px)'}));
 
 
     //setInterval(()=>console.log(scrollProgress),1500);
@@ -32,9 +33,13 @@ function App() {
         window.onbeforeunload = function () {
             window.scrollTo(0, 0);
         }
+        buttonChange.start((number,index) => ({to:{ transform: 'translateY(0px)' },config: {delay: 4500, duration: 5150 }}));
+        document.body.style.overflow = "hidden"
+        setTimeout(()=> document.body.style.overflow = "auto",6500);
     },[])
     // const [isAnimationOver, setAnim] = useState(false);
     const [styles, api] = useSpring((number,index) => ({ opacity: 1}));
+
     api.stop();
     if (isNextSlide ) {
         api.start((number,index) => ({to:{ opacity: 0 },config: { duration: 350 }}));
@@ -42,12 +47,11 @@ function App() {
     if (!isNextSlide) {
         api.start((number,index) => ({to:{ opacity: 1  },config: { duration: 350 }}));
     }
-    //
+
     const defaultBack = {background: "radial-gradient(circle at right, rgba(38,15,71,1) 31%, rgba(21,5,45,1) 50%, rgba(9,9,121,1) 72%, rgba(0,212,255,1) 100%)"};
     console.log(isNextSlide)
     // api.stop();
 
-    console.log(scrollProgress);
     //setTimeout(()=>setAnim(true),1500)
 
     function Rig() {
@@ -57,45 +61,48 @@ function App() {
             // camera.position.y = -scrollProgress * 130;
         })
     }
+    const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
+    function addNewCloud() {
+        addCloud([...additionalClouds, [random(-10,20),random(-10,20),random(-10,20)]]);
+    }
     function returnLightMode () {
-        // if (isLight) {
-        //     console.log("блядина")
-        //     return (
-        //         <video muted autoPlay  loop className={'fixedMoon'} onClick={()=>setLightMode(false)}>
-        //             <source src={Sun} type={'video/webm'} codecs="vp8"/>
-        //         </video>
-        //     )
-        // }
+
 
         return (
-            <>
-            <video muted autoPlay  loop className={'fixedMoon'} onClick={()=>setLightMode(false)} style={{display: !isLight ? "none" : 'block'}}>
-                <source src={Sun} type={'video/webm'} codecs="vp8"/>
+            <div className={'moonWrapper'}>
+            <animated.div className={'testClassToFind'} style={buttonStyle}>
+                <video muted autoPlay  loop className={'fixedCloud cursor-pointer'} onClick={addNewCloud} >
+                    <source src={CloudIcon} type={'video/webm'} codecs="vp8"/>
+                </video>
+
+                <video muted autoPlay  loop className={'fixedMoon cursor-pointer'} onClick={()=>setLightMode(false)} style={{display: !isLight ? "none" : 'block'}}>
+                    <source src={Sun} type={'video/webm'} codecs="vp8"/>
             </video>
-            <video muted autoPlay  loop className={'fixedMoon'} onClick={()=>setLightMode(true)} style={{display: isLight ? "none" : 'block'}}>
+            <video muted autoPlay  loop className={'fixedMoon cursor-pointer'} onClick={()=>setLightMode(true)} style={{display: isLight ? "none" : 'block'}}>
                 <source src={Moon} type={'video/webm'} codecs="vp8"/>
             </video>
-            </>
+            </animated.div>
+            </div>
         )
     }
   return (
         <>
-          {/*{!isNextSlide ? <></> : <Mount isNextSlide={isNextSlide} />}*/}
             {returnLightMode()}
+
           <Parallax
               onProgressChange={(progress) => setScrollProgress(progress)}>
-
-
-              <div className="anotherColor" />
-
-
               <animated.div className="secondBody"
-                            style={styles}
+                            style={{...styles}}
               />
 
+              <div className="anotherColor" style={{zIndex:-500}}/>
+
+
+
+
               <Parallax onProgressChange={(progress) => setGlobalScroll(progress)}>
-                  <Canvas className={'absoluteCanvas'} camera={{ position: [0, 0, -5], fov: 35 }} style={{position:'absolute', height:'3000px'}}>
+                  <Canvas className={'absoluteCanvas'} camera={{ position: [0, 0, -5], fov: 35 }} style={{position:'absolute', height:'300vh'}}>
                       <ambientLight intensity={0.8} color="#00d4ff"/>
                       <pointLight intensity={13 * (globalScroll -0.6)} position={[0, 150, 5]} color="#A020F0"/>
                       <Suspense fallback={null}>
@@ -109,8 +116,9 @@ function App() {
                           <Cloud position={[4* scrollProgress*10, 12, 50]} speed={0.6} opacity={0.3} />
                           <Cloud position={[5* scrollProgress*10, 12, 60]} speed={0.2} opacity={0.2} />
                           <Cloud position={[5, 35 + scrollProgress*2, 20]} speed={0.2} opacity={0.2} />
+                          {additionalClouds.map((el)=><Cloud position={el} speed={0.2} opacity={0.2} />)}
                       </Suspense>
-                      {isLight ? <Sky azimuth={0.4} opacity={0} turbidity={10} elevation={1} rayleigh={0.5} inclination={0.6} distance={1000} /> : <></>}
+                      {isLight ? <Sky azimuth={0.6} opacity={0.5} turbidity={50} elevation={1} rayleigh={0.5} inclination={0.6} distance={1000} sunPosition={[50, 50, 100]} /> : <></>}
                       <Rig />
                   </Canvas>
                   <div className="dummy">
@@ -121,10 +129,12 @@ function App() {
                           <div className={'flex self-center items-center justify-center text-center bg-blue-100 rounded-lg p-5 font-sans text-3xl flex flex-col shadow-2xl shadow-cyan-500/50'}  style={globalScroll == 1 ? {opacity:0} : {opacity:1.7-globalScroll, zIndex: scrollProgress > 0.6 ? -5: 5}}>
 
                               Greetings, my name is Kirill and i'm a frontend developer.
-                              <video ref={hiRef} autoPlay muted style={{width:'10rem', height:'10rem'}} onMouseMove={()=>hiRef.current.play()}>
+                          </div>
+                            <div  style={globalScroll == 1 ? {opacity:0} : {opacity:1.7-globalScroll, zIndex: scrollProgress > 0.6 ? -5: 5}}>
+                            <video className={'z-10'} ref={hiRef} autoPlay muted style={{width:'10rem', height:'10rem'}} onMouseMove={()=>hiRef.current.play()}>
                                   <source src={Greeting} type={'video/webm'} codecs="vp8"/>
                               </video>
-                          </div>
+                            </div>
                         </div>
                       {/*</div>*/}
                   </div>

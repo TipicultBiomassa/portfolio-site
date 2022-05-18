@@ -26,20 +26,34 @@
   /*background-image: linear-gradient(128deg, rgba(28,69,87,1) 6%, rgba(25,20,112,1) 22%, rgba(37,9,79,1) 38%, rgba(9,9,121,1) 53%, rgba(0,212,255,1) 100%);*/
   overflow: hidden;
   width: 100%;
-  height: 3000px;
+  height: 300vh;
+  min-height: 2100px;
   position:absolute;
   /*background: radial-gradient(circle, rgba(28,69,87,1) 3%, rgba(20,88,112,1) 16%, rgba(37,9,79,1) 43%, rgba(9,9,121,1) 71%, rgba(0,212,255,1) 100%);*/
   /*background: radial-gradient(circle at right, rgba(38,15,71,1) 31%, rgba(21,5,45,1) 50%, rgba(9,9,121,1) 72%, rgba(0,212,255,1) 100%);*/
 }
-
+/*body {*/
+/*  width: 100%;*/
+/*}*/
+#root {
+  height: 100%;
+}
+.moonWrapper {
+  position: absolute;
+  width: 100%;
+  height: 300vh;
+  min-height: 2100px;
+  /*overflow: hidden;*/
+}
 .secondBody {
   position:absolute;
+  width: 100%;
   /*background: radial-gradient(circle, rgba(28,69,87,1) 3%, rgba(20,88,112,1) 16%, rgba(37,9,79,1) 43%, rgba(9,9,121,1) 71%, rgba(0,212,255,1) 100%);*/
   background: radial-gradient(circle at right, rgba(38,15,71,1) 31%, rgba(21,5,45,1) 50%, rgba(9,9,121,1) 72%, rgba(0,212,255,1) 100%);
   /*background: "radial-gradient(circle at right, rgba(38,15,71,1) 31%, rgba(21,5,45,1) 50%, rgba(9,9,121,1) 72%, rgba(0,212,255,1) 100%)";*/
-  overflow: hidden;
-  width: 100%;
-  height: 3000px;
+  /*overflow: hidden;*/
+  height: 300vh;
+  min-height: 2100px;
 }
 .itsmid{
   position: absolute;
@@ -48,40 +62,85 @@
 
   max-width: 30vw;
 }
+.moonWrapper{
+
+}
+.testClassToFind {
+
+  box-sizing: border-box;
+  /*display: none;*/
+  position: absolute;
+  /*overflow: hidden;*/
+  /*overflow: hidden;*/
+  right: 0;
+  z-index: 10;
+  height: 300vh;
+  min-height: 2100px;
+  /*width: 100%;*/
+  max-width: 250px;
+}
+
+
 .fixedMoon {
-  left: 95%;
-  top: 25%;
-  transform: translate(-50%, 0);
-  position: fixed;
-  z-index: 5;
+  /*left: 95%;*/
+  top: 40%;
+  left: 0;
+  /*right: 0;*/
+  /*transform: translate(-50%, 0);*/
+  position: sticky;
+  z-index: 55;
   width: 150px;
+  height: 150px;
+}
+.fixedCloud {
+  /*left: 95%;*/
+  top: 20%;
+  left: 0;
+  /*right: 0;*/
+  /*transform: translate(-50%, 0);*/
+  position: sticky;
+  z-index: 55;
+  width: 150px;
+  height: 150px;
+}
+.shadowMoon{
+  position: relative;
+  border-radius: 50%;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.12),
+  0 2px 2px rgba(0,0,0,0.12),
+  0 4px 4px rgba(0,0,0,0.12),
+  0 8px 8px rgba(0,0,0,0.12),
+  0 16px 16px rgba(0,0,0,0.12);
 }
 .dummy {
-  height: 1000px;
+  height: 100vh;
   /*background-image: linear-gradient(128deg, rgba(28,69,87,1) 6%, rgba(25,20,112,1) 22%, rgba(37,9,79,1) 38%, rgba(9,9,121,1) 53%, rgba(0,212,255,1) 100%);*/
 
   /*width: 100%;*/
-  /*height: 3000px;*/
+  /*height: 300vh;*/
   /*position: relative;*/
 }
 .absoluteCanvas {
   position:absolute;
   overflow: hidden;
   width: 100%;
-  height: 3000px;
+  height: 300vh;
+  min-height: 2100px;
 }
 .anotherColor {
   background-image: linear-gradient(128deg, rgba(28,69,87,1) 6%, rgba(25,20,112,1) 22%, rgba(37,9,79,1) 38%, rgba(9,9,121,1) 53%, rgba(0,212,255,1) 100%);
   position:absolute;
   overflow: hidden;
   width: 100%;
-  height: 3000px;
+  height: 300vh;
+  min-height: 2100px;
 }
 .mainBodyWithoutBackground {
   position: absolute;
   overflow: hidden;
   width: 100%;
-  height: 3000px;
+  height: 300vh;
+  min-height: 2100px;
 }
 
 .spinner-profile {
