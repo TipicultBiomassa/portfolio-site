@@ -35,7 +35,7 @@ function App() {
         }
         window.scrollTo(0, 0);
         buttonChange.start((number,index) => ({to:{ transform: 'translateY(0px)' },config: {delay: 4500, duration: 5150 }}));
-        document.body.style.overflow = "hidden"
+        setTimeout(()=>document.body.style.overflow = "hidden",20);
         setTimeout(()=> document.body.style.overflow = "auto",6500);
     },[])
     // const [isAnimationOver, setAnim] = useState(false);
