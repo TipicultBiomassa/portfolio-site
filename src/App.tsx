@@ -24,7 +24,7 @@ function App() {
 
     const [isLight, setLightMode] = useState(false);
     const hiRef = useRef();
-    const [buttonStyle, buttonChange] = useSpring((number,index) => ({ transform: 'translateY(1550px)'}));
+    const [buttonStyle, buttonChange] = useSpring((number,index) => ({ transform: 'translateY(150vh)'}));
 
 
     //setInterval(()=>console.log(scrollProgress),1500);
@@ -34,9 +34,9 @@ function App() {
             window.scrollTo(0, 0);
         }
         window.scrollTo(0, 0);
-        buttonChange.start((number,index) => ({to:{ transform: 'translateY(0px)' },config: {delay: 4500, duration: 5150 }}));
-        setTimeout(()=>document.body.style.overflow = "hidden",20);
-        setTimeout(()=> document.body.style.overflow = "auto",6500);
+        buttonChange.start((number,index) => ({to:{ transform: 'translateY(0vh)' },config: {delay: 4500, duration: 5150 }}));
+        // setTimeout(()=>document.body.style.overflow = "hidden",20);
+        // setTimeout(()=> document.body.style.overflow = "auto",6500);
     },[])
     // const [isAnimationOver, setAnim] = useState(false);
     const [styles, api] = useSpring((number,index) => ({ opacity: 1}));
@@ -72,17 +72,19 @@ function App() {
 
         return (
             <div className={'moonWrapper'}>
-            <animated.div className={'testClassToFind'} style={buttonStyle}>
+            <animated.div className={'testClassToFind'}>
+                <animated.div className={'w-48 h-64 gap-y-44 flex flex-col'} style={buttonStyle}>
                 <video muted autoPlay  loop className={'fixedCloud cursor-pointer'} onClick={addNewCloud} >
                     <source src={CloudIcon} type={'video/webm'} codecs="vp8"/>
                 </video>
 
                 <video muted autoPlay  loop className={'fixedMoon cursor-pointer'} onClick={()=>setLightMode(false)} style={{display: !isLight ? "none" : 'block'}}>
                     <source src={Sun} type={'video/webm'} codecs="vp8"/>
-            </video>
+                </video>
             <video muted autoPlay  loop className={'fixedMoon cursor-pointer'} onClick={()=>setLightMode(true)} style={{display: isLight ? "none" : 'block'}}>
                 <source src={Moon} type={'video/webm'} codecs="vp8"/>
             </video>
+                </animated.div>
             </animated.div>
             </div>
         )
@@ -123,20 +125,21 @@ function App() {
                       <Rig />
                   </Canvas>
                   <div className="dummy">
-                      <TextLeft isNextSlide={isNextSlide} />
                       <InnerComponent setNextSlide={setNextSlide} setScrollProgress={setScrollProgress}/>
-                      {/*<div className={'h-40 w-64 flex self-center' } style={{marginTop: `${37 - globalScroll * 35}vh`}}>*/}
-                        <div className={"flex self-center items-center justify-center"}  style={{marginTop: `${37 - globalScroll * 35}vh`}}>
-                          <div className={'flex self-center items-center justify-center text-center bg-blue-100 rounded-lg p-5 font-sans text-3xl flex flex-col shadow-2xl shadow-cyan-500/50'}  style={globalScroll == 1 ? {opacity:0} : {opacity:1.7-globalScroll, zIndex: scrollProgress > 0.6 ? -5: 5}}>
+                      <div className={"flex self-center items-center justify-center"}  style={{marginTop: `${37 - globalScroll * 35}vh`}}>
+                          <div className={'flex self-center items-center justify-center  text-center bg-blue-100 rounded-lg p-5 font-sans text-3xl flex flex-col shadow-2xl shadow-cyan-500/50'}  style={globalScroll == 1 ? {opacity:0} : {opacity:1.7-globalScroll, zIndex: scrollProgress > 0.6 ? -5: 5}}>
 
                               Greetings, my name is Kirill and i'm a frontend developer.
                           </div>
-                            <div  style={globalScroll == 1 ? {opacity:0} : {opacity:1.7-globalScroll, zIndex: scrollProgress > 0.6 ? -5: 5}}>
-                            <video className={'z-10'} ref={hiRef} autoPlay muted style={{width:'10rem', height:'10rem'}} onMouseMove={()=>hiRef.current.play()}>
+                          <div  style={globalScroll == 1 ? {opacity:0} : {opacity:1.7-globalScroll, zIndex: scrollProgress > 0.6 ? -5: 5}}>
+                              <video className={'z-10'} ref={hiRef} autoPlay muted style={{width:'10rem', height:'10rem'}} onMouseMove={()=>hiRef.current.play()}>
                                   <source src={Greeting} type={'video/webm'} codecs="vp8"/>
                               </video>
-                            </div>
-                        </div>
+                          </div>
+                      </div>
+                      <TextLeft isNextSlide={isNextSlide} />
+                      {/*<div className={'h-40 w-64 flex self-center' } style={{marginTop: `${37 - globalScroll * 35}vh`}}>*/}
+
                       {/*</div>*/}
                   </div>
 
